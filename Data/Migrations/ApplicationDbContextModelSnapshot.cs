@@ -26,6 +26,8 @@ namespace MarketList.Data.Migrations
 
                     b.Property<int>("Quantity");
 
+                    b.Property<string>("UserId");
+
                     b.Property<bool>("isBought");
 
                     b.HasKey("Id");

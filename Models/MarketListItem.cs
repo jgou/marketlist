@@ -10,5 +10,6 @@ namespace MarketList.Models
         public string Name { get; set; }
         public int Quantity { get; set; }
         public bool isBought { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MarketList.Data;
 using MarketList.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -16,24 +17,25 @@ namespace MarketList.Services
             _context = context;
         }
 
-        public async Task<bool> AddItemAsync(MarketListItem newItem)
+        public async Task<bool> AddItemAsync(MarketListItem newItem, IdentityUser user)
         {
             newItem.Id = new Guid();
             newItem.isBought = false;
+            newItem.UserId = user.Id;
             _context.Items.Add(newItem);
 
             var result = await _context.SaveChangesAsync();
             return result == 1;
         }
 
-        public async Task<MarketListItem[]> GetPendingItemsAsync()
+        public async Task<MarketListItem[]> GetPendingItemsAsync(IdentityUser user)
         {
-            return await _context.Items.Where(x => x.isBought == false).ToArrayAsync();
+            return await _context.Items.Where(x => x.isBought == false && x.UserId == user.Id).ToArrayAsync();
         }
 
-        public async Task<bool> MarkAsBoughtAsync(Guid id)
+        public async Task<bool> MarkAsBoughtAsync(Guid id, IdentityUser user)
         {
-            var item = await _context.Items.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var item = await _context.Items.Where(x => x.Id == id && x.UserId == user.Id).SingleOrDefaultAsync();
             if (item == null) return false;
 
             item.isBought = true;

@@ -1,28 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MarketList.Models;
 using MarketList.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MarketList.Controllers
 {
+    [Authorize]
     public class MarketListController : Controller
     {
         private readonly IMarketListItemService _marketListItemService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public MarketListController(IMarketListItemService marketListItemService)
+        public MarketListController(IMarketListItemService marketListItemService, UserManager<IdentityUser> userManager)
         {
             _marketListItemService = marketListItemService;
+            _userManager = userManager;
         }
 
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
-            var items = await _marketListItemService.GetPendingItemsAsync();
+            var currentuser = await _userManager.GetUserAsync(User);
+            if (currentuser == null) return Challenge();
+
+            var items = await _marketListItemService.GetPendingItemsAsync(currentuser);
 
             var model = new MarketListViewModel
             {
@@ -40,7 +46,10 @@ namespace MarketList.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ok = await _marketListItemService.AddItemAsync(newItem);
+            var currentuser = await _userManager.GetUserAsync(User);
+            if (currentuser == null) return Challenge();
+
+            var ok = await _marketListItemService.AddItemAsync(newItem, currentuser);
             if (!ok) return BadRequest("Could not add the item");
 
             return RedirectToAction("Index");
@@ -54,7 +63,10 @@ namespace MarketList.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ok = await _marketListItemService.MarkAsBoughtAsync(id);
+            var currentuser = await _userManager.GetUserAsync(User);
+            if (currentuser == null) return Challenge();
+
+            var ok = await _marketListItemService.MarkAsBoughtAsync(id, currentuser);
             if (!ok) return BadRequest("Could not mark item as bought");
 
             return RedirectToAction("Index");
