@@ -1,0 +1,9 @@
+﻿@model MarketListItem
+
+<form asp-action="AddItem" method="POST">
+    <label asp-for="Name">Add a new item:</label>
+    <input asp-for="Name">
+    <label asp-for="Quantity">Qty</label>
+    <input asp-for="Quantity">
+    <button type="submit">Add</button>
+</form>

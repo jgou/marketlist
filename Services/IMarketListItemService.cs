@@ -8,6 +8,7 @@ namespace MarketList.Services
 {
     public interface IMarketListItemService
     {
-        Task<MarketListItem[]> GetPendingItemsAsync(); 
+        Task<MarketListItem[]> GetPendingItemsAsync();
+        Task<bool> AddItemAsync(MarketListItem newItem);
     }
 }

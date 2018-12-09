@@ -1,6 +1,7 @@
 ﻿using MarketList.Data;
 using MarketList.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,6 +14,16 @@ namespace MarketList.Services
         public MarketListItemService(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<bool> AddItemAsync(MarketListItem newItem)
+        {
+            newItem.Id = new Guid();
+            newItem.isBought = false;
+            _context.Items.Add(newItem);
+
+            var result = await _context.SaveChangesAsync();
+            return result == 1;
         }
 
         public async Task<MarketListItem[]> GetPendingItemsAsync()

@@ -31,5 +31,19 @@ namespace MarketList.Controllers
 
             return View(model);
         }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddItem(MarketListItem newItem)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var ok = await _marketListItemService.AddItemAsync(newItem);
+            if (!ok) return BadRequest("Could not add the item");
+
+            return RedirectToAction("Index");
+        }
     }
 }

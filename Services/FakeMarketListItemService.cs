@@ -8,6 +8,11 @@ namespace MarketList.Services
 {
     public class FakeMarketListItemService : IMarketListItemService
     {
+        public Task<bool> AddItemAsync(MarketListItem newItem)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<MarketListItem[]> GetPendingItemsAsync()
         {
             var item1 = new MarketListItem
