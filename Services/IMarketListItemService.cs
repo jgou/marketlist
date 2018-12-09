@@ -10,5 +10,6 @@ namespace MarketList.Services
     {
         Task<MarketListItem[]> GetPendingItemsAsync();
         Task<bool> AddItemAsync(MarketListItem newItem);
+        Task<bool> MarkAsBoughtAsync(Guid id);
     }
 }

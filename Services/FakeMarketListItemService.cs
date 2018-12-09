@@ -29,5 +29,10 @@ namespace MarketList.Services
 
             return Task.FromResult(new[] { item1, item2 });
         }
+
+        public Task<bool> MarkAsBoughtAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

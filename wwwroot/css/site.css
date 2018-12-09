@@ -40,7 +40,7 @@ div.marketlist-panel {
     margin-top: 15px;
 }
 
-table tr.done {
+table tr.bought {
     text-decoration: line-through;
     color: #888;
 }

@@ -30,5 +30,16 @@ namespace MarketList.Services
         {
             return await _context.Items.Where(x => x.isBought == false).ToArrayAsync();
         }
+
+        public async Task<bool> MarkAsBoughtAsync(Guid id)
+        {
+            var item = await _context.Items.Where(x => x.Id == id).SingleOrDefaultAsync();
+            if (item == null) return false;
+
+            item.isBought = true;
+
+            var result = await _context.SaveChangesAsync();
+            return result == 1;
+        }
     }
 }

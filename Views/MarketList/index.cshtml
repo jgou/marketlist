@@ -17,7 +17,12 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                <td><input type="checkbox" class="done-checkbox"></td>
+                <td>
+                    <form asp-action="MarkAsBought" method="post">
+                        <input type="checkbox" class="bought-checkbox">
+                        <input type="hidden" name="id" value="@item.Id">
+                    </form>
+                </td>
                 <td>@item.Name</td>
                 <td>@item.Quantity</td>
             </tr>

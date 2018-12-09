@@ -45,5 +45,19 @@ namespace MarketList.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkAsBought(Guid id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var ok = await _marketListItemService.MarkAsBoughtAsync(id);
+            if (!ok) return BadRequest("Could not mark item as bought");
+
+            return RedirectToAction("Index");
+        }
     }
 }
