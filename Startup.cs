@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using MarketList.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MarketList.Services;
 
 namespace MarketList
 {
@@ -41,6 +42,8 @@ namespace MarketList
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<IMarketListItemService, FakeMarketListItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,29 @@
+﻿@model MarketListViewModel
+
+@{ 
+    ViewData["Title"] = "Manage your Marker List"; 
+}
+
+<div class="panel panel-default marketlist-panel">
+    <div class="panel-heading">@ViewData["Title"]</div>
+    <table class="table	table-hover">
+        <thead>
+            <tr>
+                <td>&#x2714;</td>
+                <td>Item</td>
+                <td>Quantity</td>
+            </tr>
+        </thead>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td><input type="checkbox" class="done-checkbox"></td>
+                <td>@item.Name</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+    </table>
+    <div class="panel-footer add-item-form">				
+    <!--	TODO:	Add	item	form	-->		
+    </div>
+</div>
